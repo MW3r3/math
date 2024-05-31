@@ -80,21 +80,6 @@
 .tura {
     background-color: chocolate;
 }
-.countyazi {
-    background-color: #23d5ab;
-    border-radius: 10%;
-    padding: 5px 10px;
-    margin: 10px;
-}
-.counttura {
-    background-color: chocolate;
-    border-radius: 10%;
-    padding: 5px 10px;
-    margin: 10px
-}
-
-
-
     button {
         background-color: #4CAF50; /* Green */
         border: none;
@@ -149,7 +134,6 @@
                           tossesContainer.appendChild(tossDiv);
                       }
                   }
-                  
   
                   var probabilities = counts.map(function(count, i) {
                       return "P(" + (i === 0 ? 'Yazı' : 'Tura') + ") = " + (count / totalTosses * 100).toFixed(2) + "%";
@@ -157,15 +141,15 @@
   
                   document.getElementById('probability').textContent =  totalTosses + " atıştan sonra toplam olasılık: " + probabilities.join(", ");
   
-                  if (tossCount > 50) {
+                  if (tossCount > 100) {
                       var yazıCountDiv = document.createElement('div');
                       yazıCountDiv.textContent = 'Yazı: ' + counts[0];
-                      yazıCountDiv.className = 'countyazi';
+                      yazıCountDiv.className = 'count yazi';
                       tossesContainer.appendChild(yazıCountDiv);
   
                       var turaCountDiv = document.createElement('div');
                       turaCountDiv.textContent = 'Tura: ' + counts[1];
-                      turaCountDiv.className = 'counttura';
+                      turaCountDiv.className = 'count tura';
                       tossesContainer.appendChild(turaCountDiv);
                   }
   

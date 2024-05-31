@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dice Probability</title>
+    <style>
+     body {
+    font-family: Arial, sans-serif;
+    
+}
+.content {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+}
+body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 200% 200%;
+        background-position: 0% 0%;
+        animation: gradient 5s ease infinite;
+    }
+
+    h1, button, #diceCount, #rollsContainer, #result, #probability {
+        text-align: center;
+        
+    }
+
+@keyframes gradient {
+    0% { background-position: 100% 0%; }
+    50% { background-position: 0% 100%; }
+    100% { background-position: 100% 0%; }
+}
+
+.roll {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 20px;
+    background-color: #ffcc00;
+    color: #000;
+    animation: roll 0.5s ease-in-out;
+}
+
+@keyframes roll {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(360deg); transform: scale(1.05); }
+    100% { transform: rotate(0deg); }
+}
+
+#probability {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+h1 {
+    color: #333;
+}
+    </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Zar ile Deneysel Olasılık</h1>
+    <input type="number" id="diceCount" min="1" value="1">
+    <button onclick="rollDice()">Zar at</button>
+    <div id="rollsContainer"></div>
+    <p id="result"></p>
+    <p id="probability"></p>
+  </div>
+
+    <script>
+        var counts = [0, 0, 0, 0, 0, 0];
+var totalRolls = 0;
+
+function rollDice() {
+    var diceCount = document.getElementById('diceCount').value;
+    var rollsContainer = document.getElementById('rollsContainer');
+    rollsContainer.innerHTML = ''; // Clear previous rolls
+
+    var delay = diceCount <= 10 ? 500 : 100; // Set delay based on number of dice to throw
+    var diceAtATime = diceCount <= 10 ? 1 : 10; // Set number of dice to throw at a time based on number of dice to throw
+
+    function throwDice(i) {
+        if (i < diceCount) {
+            for (var j = 0; j < diceAtATime && i + j < diceCount; j++) {
+                var roll = Math.floor(Math.random() * 6) + 1;
+                counts[roll - 1]++;
+                totalRolls++;
+
+                if (diceCount <= 50) {
+                    var rollDiv = document.createElement('div');
+                    rollDiv.textContent = roll;
+                    rollDiv.className = 'roll'; // Add a class for styling
+                    rollsContainer.appendChild(rollDiv);
+                }
+            }
+
+            var probabilities = counts.map(function(count, i) {
+                return "P(" + (i + 1) + ") = " + (count / totalRolls * 100).toFixed(2) + "%";
+            });
+
+            document.getElementById('probability').textContent = "Probabilities after " + totalRolls + " rolls: " + probabilities.join(", ");
+
+            setTimeout(function() {
+                throwDice(i + diceAtATime);
+            }, delay);
+        }
+    }
+
+    throwDice(0);
+}
+    </script>
+</body>
+</html>
